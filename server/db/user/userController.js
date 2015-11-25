@@ -1,127 +1,64 @@
+var Promise = require('bluebird');
 var User = require('./userModel.js');
 var Recipe = require('../recipe/recipeModel.js');
 
-//return an array of all User profiles as JSON objects
-
-exports.getAllUsers = function(callback){
-  User.find({}, function(err, users) {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    console.log('sending user information');
-    callback(users);
-  });
-};
-
-
-
-//finds a specific user profile
-exports.findUser = function(user, callback){
-  var query =  {};
-  if ( google.id ){
-    query = { 'google.id': user.goggle.id };
+/**
+ * Find a single user regardless of signup strategy used
+ * @param  {object}   user     
+ * @return {object}           found user profile
+ */
+exports.findUser = function(user) {
+  var query = {};
+  if (google.id) {
+    query = {
+      'google.id': user.goggle.id
+    };
   } else {
-    query = { 'local.email':  user.local.email };
+    query = {
+      'local.email': user.local.email
+    };
   }
-  User.findOne(query, function(err, profile){
-    if (err) {
-      console.error(err);
-      return;
-    } else {
-      callback(profile);
-    } 
-  });
-};
-
-
-
-
-exports.addUser = function(data, callback){
-    // ============
-    // Params
-    // ============
-    // googleInfo
-    // - id
-    // - token
-    // - email
-    // - name
-    //
-    // new user -> google_id, name, email
-    //=============
-    // localInfo
-    // -username
-    // -email
-    // -password
-    // new user -> username, email, passord
-    //===============
-
-  var user = new User({
-
-   local:            {
-      username: data.username,
-      email: data.email,
-      password: data.password
-    },
-    google :         {
-      id : data.id,
-      token : data.token,
-      email : data.email,
-      name : data.name
-    },
-    username: data.name,
-    shoppingList: data.list,
-    recipeCollection: data.recipes
-
-  });
-
-
-  user.save(function(err){
-    if (err){
-      console.error(err, 'Error on save!');
-      return;
-    } else {
-      console.log('user record created');
-      callback();
-    }
-  });
-};
-
-exports.updateShoppingList = function(data, callback){
-   // ============
-    // Params
-    // ============
-    // 
-    // - data
-    //    -user
-    //      -info
-    //    -recipe
-    //      - all recipe info?
-    // - 
-    // - 
-    //
-    // 
-    //=============
-
- findUser(data.user, function(profile){
-    var recipe = new Recipe({
-      title: data.recipe.title,
-      href: data.recipe.WebURL, 
-      ingredients: data.recipe.Ingredients,
-      imageURL: data.recipe.ImageURL,
-      body: data.recipe
+  return new Promise(function(reject, resolve) {
+    User.findOne(query, function(err, profile) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(profile);
+      }
     });
-     User.update({'local.email' : profile.local.email}, {$set: {'profile.shoppingList': data.list } });
-    // $push the recipe to their shopping list
-    // User.update({'local.email' : profile.local.email}, {$push: {'shoppingList': recipe} });
   });
 };
 
-exports.removeRecipe = function(data, callback){
-  findUser(data.user, function(profile){
-    User.update({'local.email': profile.local.email}, {$pull: {'profile.shoppingList': { name: data.recipeName }} } );
-  
-  });
+/**
+ * Updates users' shopping list
+ * @param  {object}   data     [contains user and new list properties]
+*/
+exports.updateShoppingList = function(req, res, next) {
+
+  findUser(req.body.user)
+    .then(function(profile) {
+      User.update({
+        'local.email': profile.local.email
+      }, {
+        $set: {
+          'profile.shoppingList': req.body.list
+        }
+      }, {}, function(err, affected){
+        res.send(profile);
+      });
+    });
 };
 
-
+exports.removeRecipe = function(data, callback) {
+  findUser(data.user, function(profile) {
+    User.update({
+      'local.email': profile.local.email
+    }, {
+      $pull: {
+        'profile.shoppingList': {
+          name: data.recipeName
+        }
+      }
+    });
+  });
+};

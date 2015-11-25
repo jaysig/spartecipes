@@ -1,12 +1,12 @@
 var LocalStrategy = require('passport-local').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-
-
-// TODO --> Add user db model
 var User = require('../db/user/userModel.js');
 
 module.exports = function(passport) {
 
+  /**
+   * Passport serialize/deserialize functions
+   */
   passport.serializeUser(function(user, done) {
     done(null, user.id);
   });
@@ -16,7 +16,6 @@ module.exports = function(passport) {
       done(err, user);
     });
   });
-
 
   /**
    * Local Signup Strategy
@@ -101,11 +100,10 @@ module.exports = function(passport) {
 
 
   /**
-   * Google SignUp Strategy
+   * Google Authentication Strategy
    */
 
   // passport.use(new GoogleStrategy({
-  //     // TODO --> Add in Auth info
   //     clientID: process.env.GOOGLE_CLIENT_ID,
   //     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   //     callbackURL: process.env.GOOGLE_CALLBACK_URL
@@ -129,7 +127,6 @@ module.exports = function(passport) {
   //         var newUser = new User();
 
   //         // set all user info
-  //         // TODO --> Resolve with DB
   //         newUser.google.id = profile.id;
   //         newUser.google.token = token;
   //         newUser.google.name = profile.displayName;

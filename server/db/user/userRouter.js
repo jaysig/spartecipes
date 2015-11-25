@@ -10,21 +10,16 @@ var jwt = require('jwt-simple');
  */
 module.exports = function(app, passport) {
 
+  /**
+   * Updates users' shoppinglist
+   */
   app.route('/recipes')
-    .post(function(req, res, next) {
-      UserController.updateShoppingList({
-        user: req.body.user,
-        recipe: req.body.list
-      }, function(err, res) {
-        if (err) {
-          console.error('Unable to update Shopping List');
-        }
-      });
-    });
+    .post(UserController.updateShoppingList);
 
-
-  // Handles Registration for a new user using passport local strategy
-  // Successful registration sends back DB user object into authenticate callback function
+  /**
+   * Handles Registration for a new user using passport local strategy
+   * Successful registration sends back DB user object into authenticate callback function
+   */
   app.route('/register')
     .post(function(req, res, next) {
       passport.authenticate('local-signup', function(err, user, info) {
@@ -52,7 +47,9 @@ module.exports = function(app, passport) {
       })(req, res, next);
     });
 
-  // Handles Local Login Strategy for Returning Users
+  /**
+   * Login an existing user
+   */
   app.route('/login')
     .post(function(req, res, next) {
       passport.authenticate('local-login', function(err, user, info) {
@@ -76,15 +73,18 @@ module.exports = function(app, passport) {
       })(req, res, next);
     });
 
-  // Initial Route for google Login
-  // Will redirect users to a google Auth page asking for access to the things in the scope array
-  // Saves new user to DB if successful
+  /**
+   * Initial Route for google Login
+   * Will redirect users to a google Auth page asking for access to the things in the scope array
+   * Saves new user to DB if successful
+   */
   app.get('/auth/google', passport.authenticate('google', {
     scope: ['profile', 'email']
   }));
 
-  // Route called when google successfully authorizes user
-  // Successful registration sends back DB user object into authenticate callback function
+  /**
+   * Callback route after a successful google authentication
+   */
   app.route('/auth/google/callback')
     .get(function(req, res, next) {
       passport.authenticate('google', function(err, user, info) {
@@ -129,7 +129,9 @@ module.exports = function(app, passport) {
       }
     });
 
-  // Logout User
+  /**
+   * Log User out of serverside auth
+   */
   app.route('/logout')
     .get(function(req, res, next) {
       req.logout();
