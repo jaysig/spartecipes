@@ -39,7 +39,4 @@ angular.module('recipes.search', [])
   }])
   .controller('SearchCtrl', ['$scope', '$rootScope', function($scope, $rootScope) {
     $scope.searching = false;
-    $rootScope.$on('search', function(e, search){
-      console.log(search);
-    });
   }]);
