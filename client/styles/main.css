@@ -13,7 +13,7 @@ img.mylogo {
 
 .ui-view-container {
   position: relative;
-  height: 1000px;
+  min-height: 1000px;
 }
 
 [ui-view].ng-enter, [ui-view].ng-leave {

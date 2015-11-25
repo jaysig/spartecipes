@@ -20,7 +20,6 @@ angular.module('recipes.search', [])
               // On enter
             } else if (keypressEvent.which === 13) {
               $rootScope.$broadcast('search', searchbar.val());
-              $state.go('search');
               searchbar.val('').blur();
               el.fadeOut(200);
 

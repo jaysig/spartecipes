@@ -1,0 +1,15 @@
+<div class="head">
+modal!!!!!
+    <h4><strong>{{currentRecipe.Title}}</strong></h4>
+    <h5><strong>{{currentRecipe.Category}} - {{currentRecipe.Subcategory}}</strong></h5>
+    <h5><strong>Ingredients:</strong></h5>
+    <div class="ingredients" ng-repeat="ingredient in currentRecipe.Ingredients">{{ingredient.DisplayQuantity}} {{ingredient.Unit}} {{ingredient.Name}}
+        <br>
+    </div>
+    <h5><strong>Instructions:</strong></h5>
+    <div class="ingredients">{{currentRecipe.Instructions}}</div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-default" type="button" ng-click="close()">Go Back</button>
+    <button class="btn btn-primary" type="button" ng-click="addToList()">Add Recipe</button>
+</div>

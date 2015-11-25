@@ -1,18 +1,11 @@
 angular.module('recipes.recipes', [])
 
-
-
-
 .controller('HeaderController', function($scope, $rootScope, Search, $uibModal, ShoppingList, Auth) {
 
   // Your code here
   $scope.data = {};
   $scope.isAuth = Auth.isAuth();
   angular.extend($scope, Search, ShoppingList);
-
-  $scope.changeState = function(state) {
-    $state.go(state);
-  };
 
   $scope.$on('userAction', function() {
     $scope.isAuth = Auth.isAuth();
@@ -27,11 +20,12 @@ angular.module('recipes.recipes', [])
   $rootScope.$on('search', function(e, search) {
     $scope.retrieveRecipes(search);
   });
-  
+
   $scope.retrieveRecipes = function(data) {
-    Search.getRecipes(data).then(function(recipes) {
-      $scope.data.recipes = recipes;
-    });
+    Search.getRecipes(data)
+      .then(function(recipes) {
+        $scope.data.recipes = recipes;
+      });
   };
 
 
@@ -56,7 +50,6 @@ angular.module('recipes.recipes', [])
   angular.extend($scope, Search);
   $scope.currentRecipe = item;
   $scope.isAuth = Auth.isAuth();
-  console.log($scope.currentRecipe);
 
   $scope.$on('userAction', function() {
     $scope.isAuth = Auth.isAuth();
@@ -68,7 +61,6 @@ angular.module('recipes.recipes', [])
 
   $scope.ok = function() {
     $uibModalInstance.close();
-    ShoppingList.addToList(item, ShoppingList.orderIngredients);
-    //$scope.updateList();
+    ShoppingList.addToList(item);
   };
 });

@@ -8,19 +8,19 @@ angular.module('recipes', [
   'ui.bootstrap'
 ])
 .config(function($httpProvider, $locationProvider, $stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise("/");
   $stateProvider
     .state('home', {
       url: '/',
-      templateUrl: 'app/views/main.html',
-      controller: 'HeaderController',
+      templateUrl: 'app/main/main.html',
+      controller: 'MainCtrl',
       data: {
         requireLogin: false
       }
     })
-    .state('search', {
-      //url: '/recipes',
-      templateUrl: 'app/recipes/recipes.html',
+    .state('recipe', {
+      url: '/recipe/:query',
+      templateUrl: 'app/recipe/recipe.html',
+      controller: 'RecipeCtrl',
       data: {
         requireLogin: false
       }
@@ -32,26 +32,6 @@ angular.module('recipes', [
         requireLogin: false
       }
     })
-    .state('login', {
-      url: '/login',
-      templateUrl: 'app/login/login.html',
-      controller: 'LoginController',
-      data: {
-        requireLogin: false
-      }
-      // child state of `app`
-      // requireLogin === true
-    })
-    .state('signup', {
-      url: '/signup',
-      template: 'app/signup/signup.html',
-      controllerUrl: 'SignupController',
-      data: {
-        requireLogin: false
-      }
-      // child state of `app`
-      // requireLogin === true
-    })
     .state('list', {
       url: '/list',
       templateUrl: '/shoppinglist/shoppinglist.html',
@@ -59,11 +39,10 @@ angular.module('recipes', [
       data: {
         requireLogin: true
       }
-    })
-    .state('logout', {
-      url: '/logout',
-      controller: 'LoginController'
     });
+
+    $urlRouterProvider.otherwise('/');
+
     $locationProvider.html5Mode({
       enabled: true,
       requireBase: false
