@@ -54,7 +54,7 @@ angular.module('recipes')
     };
 
     /**
-     * Adds recipe to ShoppingList factory and closes modal window
+     * Adds recipe detail to ShoppingList factory and closes modal window
      */
     $scope.addToList = function() {
       $uibModalInstance.close();

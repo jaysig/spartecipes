@@ -5,5 +5,7 @@ angular.module('recipes.services', [
   'SearchFactory',
   'ShoppingListFactory',
   'AuthFactory',
-  'StateFactory'
+  'StateFactory',
+  'UserFactory',
+  'IngredientFactory'
   ]);

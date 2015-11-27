@@ -9,7 +9,7 @@ angular.module('recipes', [
 ])
 .config(function($httpProvider, $locationProvider, $stateProvider, $urlRouterProvider) {
   $stateProvider
-    .state('home', {
+    .state('main', {
       url: '/',
       templateUrl: 'app/main/main.html',
       controller: 'MainCtrl',
@@ -34,10 +34,10 @@ angular.module('recipes', [
     })
     .state('list', {
       url: '/list',
-      templateUrl: '/shoppinglist/shoppinglist.html',
-      controller: 'ShoppinglistController',
+      templateUrl: 'app/shoppingList/shoppingList.html',
+      controller: 'ShoppingListCtrl',
       data: {
-        requireLogin: true
+        requireLogin: false
       }
     });
 

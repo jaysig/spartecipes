@@ -19,6 +19,9 @@
   <script src="lib/angular-ui-router/release/angular-ui-router.js"></script>
   <script src="lib/bootstrap/dist/js/bootstrap.js"></script>
   <script src="lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+  <script src="lib/js-quantities/src/quantities.js"></script>
+  <script src="lib/mathjs/dist/math.min.js"></script>
+  <script src="lib/underscore/underscore.js"></script>
   <!-- endbower -->
   <base href="/">
 </head>
@@ -67,8 +70,8 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Recipes<span class="sr-only">(current)</span></a></li>
-            <li ng-show="isAuth" id="menu-toggle"><a href="#">Shopping Cart</a></li>
+            <li><a ui-sref="main">Recipes</a></li>
+            <li><a ui-sref="list">Shopping Cart</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <!-- ==================== Login/Logout Directive ======================= -->

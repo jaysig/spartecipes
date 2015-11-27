@@ -1,0 +1,39 @@
+<div class="row">
+    <div class="col-xs-6">
+        <div>
+            <div class="row" ng-repeat="item in list.recipes">
+                <div class="col-xs-4">
+                    <div class="thumbnail">
+                        <img ng-src="{{item.ImageURL}}" alt="{{item.Title}}">
+                    </div>
+                </div>
+                <div class="col-xs-8">
+                    <div class="row">
+                        <div class="col-xs-10">
+                            <h4>{{item.Title}}</h4>
+                        </div>
+                        <div class="col-xs-2">
+                            <a href="#"><span ng-click="removeItem(item.RecipeID)" class="float-right glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            {{item.Description}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div ng-repeat="ingredient in list.ingredients">
+            <p>{{ingredient.Name}}</p>
+            <ul>
+                <li ng-show="ingredient.quantity.sumString.length > 1">{{ingredient.quantity.sumString}}</li>
+                 <li ng-repeat="quantity in ingredient.quantity.unparsed">
+                    {{quantity.DisplayQuantity}} {{quantity.Unit}}
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
