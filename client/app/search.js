@@ -28,7 +28,7 @@
       rel: 0,
       showinfo: 0,
       events: {
-        'onReady' : function (e) {e.target.playVideo(); e.target.setVolume(0); e.target.setPlaybackQuality(hd720); },
+        'onReady' : function (e) {e.target.playVideo(); e.target.setVolume(0); e.target.setPlaybackQuality('hd720'); },
         'onStateChange' : function (e) {e.target.playVideo(); }
       }
     });
