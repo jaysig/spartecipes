@@ -1,4 +1,4 @@
-angular.module('recipes')
+angular.module('recipes.login', [])
   .directive('login', [function() {
     return {
       restrict: 'EA',

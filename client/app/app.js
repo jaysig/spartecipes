@@ -1,6 +1,8 @@
 
 angular.module('recipes', [
   'recipes.services',
+  'recipes.login',
+  'recipes.video',
   'recipes.keypress',
   'recipes.search',
   'ui.router',
