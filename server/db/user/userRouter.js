@@ -10,68 +10,17 @@ var jwt = require('jwt-simple');
  */
 module.exports = function(app, passport) {
 
-  /**
-   * Updates users' shoppinglist
-   */
-  app.route('/recipes')
-    .post(UserController.updateShoppingList);
+  app.route('/')
+    .post(UserController.getUserList);
 
-  /**
-   * Handles Registration for a new user using passport local strategy
-   * Successful registration sends back DB user object into authenticate callback function
-   */
+  app.route('/')
+    .put(UserController.updateUserList);
+
   app.route('/register')
-    .post(function(req, res, next) {
-      passport.authenticate('local-signup', function(err, user, info) {
-        // Signup error
-        if (err) {
-          return res.send({
-            token: false,
-            err: err
-          });
-        }
-        // No user returned
-        if (!user) {
-          return res.send({
-            token: false,
-            err: info
-          });
-        }
-        // Successfully registers new user
-        // Log them in
-        var token = jwt.encode(user, 'supersecret');
-        return res.status(200).send({
-          token: token,
-          user: user
-        });
-      })(req, res, next);
-    });
+    .post(UserController.register);
 
-  /**
-   * Login an existing user
-   */
   app.route('/login')
-    .post(function(req, res, next) {
-      passport.authenticate('local-login', function(err, user, info) {
-        if (err) {
-          return res.send({
-            token: false,
-            err: err
-          });
-        }
-        if (!user) {
-          return res.send({
-            token: false,
-            err: info
-          });
-        }
-        var token = jwt.encode(user, 'supersecret');
-        return res.status(200).send({
-          token: token,
-          user: user
-        });
-      })(req, res, next);
-    });
+    .post(UserController.login);
 
   /**
    * Initial Route for google Login
@@ -83,60 +32,8 @@ module.exports = function(app, passport) {
   }));
 
   /**
-   * Callback route after a successful google authentication
+   * Not implemented
    */
   app.route('/auth/google/callback')
-    .get(function(req, res, next) {
-      passport.authenticate('google', function(err, user, info) {
-        if (err) {
-          return res.status(500).json({
-            err: err
-          });
-        }
-        if (!user) {
-          return res.status(401).json({
-            err: info
-          });
-        }
-        if (user) {
-          var token = jwt.encode(user, 'supersecret');
-          return res.status(200).send({
-            token: token,
-            user: user
-          });
-        }
-      })(req, res, next);
-    });
-
-  app.route('/auth/google/callback')
-    .post(function(req, res, next) {
-      // checking to see if the user is authenticated
-      // grab the token in the header is any
-      // then decode the token, which we end up being the user object
-      // check to see if that user exists in the database
-      var token = req.headers['x-access-token'];
-      if (!token) {
-        next(new Error('No token'));
-      } else {
-        var user = jwt.decode(token, 'secret');
-        UserController.findUser(user, function(foundUser) {
-          if (foundUser) {
-            res.send(200);
-          } else {
-            res.send(401);
-          }
-        });
-      }
-    });
-
-  /**
-   * Log User out of serverside auth
-   */
-  app.route('/logout')
-    .get(function(req, res, next) {
-      req.logout();
-      res.status(200).json({
-        status: 'bye'
-      });
-    });
+    .post(UserController.googleCallback);
 };

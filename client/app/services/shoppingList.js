@@ -1,5 +1,5 @@
 angular.module('ShoppingListFactory', [])
-  .factory('ShoppingList', ['Ingredient', function(Ingredient) {
+  .factory('ShoppingList', ['Ingredient', 'User', function(Ingredient, User) {
 
     /**
      * Initialize List Array
@@ -7,23 +7,49 @@ angular.module('ShoppingListFactory', [])
      */
     var list = [];
 
+    var getList = function() {
+      return {
+        recipes: list,
+        ingredients: getIngredientList()
+      };
+    };
+
     /**
      * Add a recipe to the list
      * @param {object} recipe [A recipe object in BigOven API format]
      */
     var addToList = function(recipe) {
       list.push(recipe);
+      User.updateUserList(list);
     };
 
     /**
      * Returns the current list of recipes and ingredients
      * @return {[object]}
      */
-    var getList = function() {
-      return {
-        recipes: list,
-        ingredients: getIngredientList()
-      };
+    var getUserList = function() {
+      var deferred = User.getUserList();
+      if (deferred) {
+        return deferred
+          .then(function(userList) {
+            if (userList) {
+              list = userList;
+            }
+            return {
+              recipes: list,
+              ingredients: getIngredientList()
+            };
+          });
+      } else {
+        return {
+          then: function() {
+            return {
+              recipes: list,
+              ingredients: getIngredientList()
+            };
+          }
+        };
+      }
     };
 
     /**
@@ -46,7 +72,7 @@ angular.module('ShoppingListFactory', [])
       for (var i = 0; i < list.length; i++) {
         if (list[i].RecipeID === id) {
           list.splice(i, 1);
-          console.log(list);
+          User.updateUserList(list);
         }
       }
     };
@@ -69,6 +95,7 @@ angular.module('ShoppingListFactory', [])
     return {
       addToList: addToList,
       getList: getList,
+      getUserList: getUserList,
       getIngredientList: getIngredientList,
       removeFromList: removeFromList,
       recipeInList: recipeInList
