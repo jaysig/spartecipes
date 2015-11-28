@@ -5,22 +5,13 @@ angular.module('recipes.video', [])
       template: '<div id="video-big"></div>',
       replace: true,
       link: function(scope, el, attr) {
-        /**
-         * Injects Youtube API script to body if it doesn't exist
-         */
-        if (typeof YT === 'undefined') {
-          var tag = document.createElement('script');
-          tag.src = "https://www.youtube.com/player_api";
-          var firstScriptTag = document.getElementsByTagName('script')[0];
-          firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-        }
 
         /**
-         * When Youtube API is loaded, replaces template with iframe
+         * Function to replace template with youtube video iframe
          * video-id must be passed as an attribute to the directive
          */
         var player;
-        window.onYouTubePlayerAPIReady = function() {
+        var setUpVideo = function() {
 
           player = new YT.Player(attr.id, {
             videoId: attr.videoId,
@@ -47,6 +38,23 @@ angular.module('recipes.video', [])
             }
           });
         };
+
+        /**
+         * Injects Youtube API if it doesn't exist
+         * Otherwise restarts the video background
+         */
+        if (typeof YT === 'undefined') {
+          var tag = document.createElement('script');
+          tag.src = "https://www.youtube.com/player_api";
+          var firstScriptTag = document.getElementsByTagName('script')[0];
+          firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+          window.onYouTubePlayerAPIReady = function() {
+            setUpVideo();
+          };
+        } else {
+          setUpVideo();
+        }
+
       }
     };
   }]);
