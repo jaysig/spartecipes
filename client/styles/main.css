@@ -62,8 +62,8 @@ img.mylogo {
   position: fixed;
   background-color: rgba(120, 40, 40, 0.8);
   width: 100%;
-  height: 600px;
-  z-index: -1;
+  height: 100%;
+  z-index: 100;
 }
 
 #searchform {

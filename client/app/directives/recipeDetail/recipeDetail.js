@@ -29,7 +29,7 @@ angular.module('recipes')
       	.then(function(recipe) {
         var modalInstance = $uibModal.open({
           animation: $scope.animationsEnabled,
-          templateUrl: 'app/directives/recipeDetail/recipeDetail.html',
+          templateUrl: '/app/directives/recipeDetail/recipeDetail.html',
           controller: 'RecipeModalInstanceCtrl',
           // Passes recipe details to modal instance
           resolve: {

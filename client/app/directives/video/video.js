@@ -6,15 +6,21 @@ angular.module('recipes.video', [])
       replace: true,
       link: function(scope, el, attr) {
         /**
-         * Injects Youtube API script to body
+         * Injects Youtube API script to body if it doesn't exist
          */
-        var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/player_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-        
+        if (typeof YT === 'undefined') {
+          var tag = document.createElement('script');
+          tag.src = "https://www.youtube.com/player_api";
+          var firstScriptTag = document.getElementsByTagName('script')[0];
+          firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        }
+
+        /**
+         * When Youtube API is loaded, replaces template with iframe
+         * video-id must be passed as an attribute to the directive
+         */
         var player;
-        window.onYouTubePlayerAPIReady = function(){
+        window.onYouTubePlayerAPIReady = function() {
 
           player = new YT.Player(attr.id, {
             videoId: attr.videoId,

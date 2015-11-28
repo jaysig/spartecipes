@@ -1,92 +1,67 @@
 <!DOCTYPE html>
 <html ng-app='recipes'>
+
 <head>
-  <title>Recipes &amp; Shopping List | by Spartecipes</title>
-
-  <!-- ==================== App Stylesheets ======================= -->
-  <link rel="stylesheet" href="dist/styles/style.min.css">
-
-
-  <!-- ==================== Bower CSS Dependencies ======================= -->
-  <!-- bower:css -->
-  <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css" />
-  <!-- endbower -->
-
-  <!-- ==================== Bower JS Dependencies ======================= -->
-  <!-- bower:js -->
-  <script src="lib/jquery/dist/jquery.js"></script>
-  <script src="lib/angular/angular.js"></script>
-  <script src="lib/angular-ui-router/release/angular-ui-router.js"></script>
-  <script src="lib/bootstrap/dist/js/bootstrap.js"></script>
-  <script src="lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-  <script src="lib/js-quantities/src/quantities.js"></script>
-  <script src="lib/mathjs/dist/math.min.js"></script>
-  <script src="lib/underscore/underscore.js"></script>
-  <!-- endbower -->
-  <base href="/">
+    <title>Recipes &amp; Shopping List | by Spartecipes</title>
+    <!-- ==================== App Stylesheets ======================= -->
+    <link rel="stylesheet" href="dist/styles/style.min.css">
+    <!-- ==================== Bower CSS Dependencies ======================= -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css" />
+    <!-- endbower -->
+    <!-- ==================== Bower JS Dependencies ======================= -->
+    <!-- bower:js -->
+    <script src="lib/jquery/dist/jquery.js"></script>
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="lib/js-quantities/src/quantities.js"></script>
+    <script src="lib/mathjs/dist/math.min.js"></script>
+    <script src="lib/underscore/underscore.js"></script>
+    <!-- endbower -->
+    <base href="/">
 </head>
-
 <!-- ==================== KeypressEvents Directive ======================= -->
-
 <body keypress-events>
-<search></search>
-<!-- ==================== Search Modal Directive ======================= -->
-
-  <!-- ============  Header  ========================  -->
-  <header id="header">
-    <nav class="navbar navbar-inverse">
-      <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#"><img class="mylogo" src="public/assets/img/mylogo.png"></a>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav">
-            <li><a ui-sref="main">Recipes</a></li>
-            <li><a ui-sref="list">Shopping Cart</a></li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <!-- ==================== Login/Logout Directive ======================= -->
-            <li ng-hide="isAuth" login></li>
-            <li ng-show="isAuth" logout></li>
-
-          </ul>
-        </div><!-- /.navbar-collapse -->
-      </div><!-- /.container-fluid -->
-    </nav>
-    <!-- <div id="video-big"></div> -->
-    <div video-background video-id="Uj49PA8-L1E"></div>
-    <div class="page-header">
-      <h1 class="header-contain">Welcome to Spartecipes <br> <small>"this is where we hold them!"</small></h1>
-      <div class="type">start typing to search  </div>
-
-    </div>
-  </header>
-</div>
-<!-- ====================  ui-view  ========================  -->
-<div class="jumbotron">
-  <div class="container">
-    <div class="ui-view-container">
-      <div ui-view></div>
-    </div>
-  </div>
-</div>
-
-  <div class="navbar navbar-fixed-bottom"></div>
-
-
-
-  <!-- ==================== App JS Files ======================= -->
-  <script src="dist/scripts/app.js"></script>
-
-
+    <search></search>
+    <!-- ==================== Search Modal Directive ======================= -->
+    <!-- ============  Header  ========================  -->
+    <header id="header">
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#"><img class="mylogo" src="public/assets/img/mylogo.png"></a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li><a ui-sref="main">Recipes</a></li>
+                        <li><a ui-sref="list">Shopping Cart</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <!-- ==================== Login/Logout Directive ======================= -->
+                        <li ng-hide="isAuth" login></li>
+                        <li ng-show="isAuth" logout></li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container-fluid -->
+        </nav>
+    </header>
+    <!-- ====================  ui-view  ========================  -->
+    <div ui-view></div>
+    <div class="navbar navbar-fixed-bottom"></div>
+    <!-- ==================== App JS Files ======================= -->
+    <script src="dist/scripts/app.js"></script>
 </body>
+
 </html>
