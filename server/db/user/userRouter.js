@@ -22,12 +22,6 @@ module.exports = function(app, passport) {
   app.route('/login')
     .post(UserController.login);
 
-  /**
-   * To enable refreshing
-   */
-  app.use(function(req, res) {
-    res.sendfile(__dirname + '/client/index.html');
-  });
 
   /**
    * Initial Route for google Login
