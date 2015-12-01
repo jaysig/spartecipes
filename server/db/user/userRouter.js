@@ -22,6 +22,7 @@ module.exports = function(app, passport) {
   app.route('/login')
     .post(UserController.login);
 
+
   /**
    * Initial Route for google Login
    * Will redirect users to a google Auth page asking for access to the things in the scope array
