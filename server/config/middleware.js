@@ -6,6 +6,7 @@
   var cookieParser = require('cookie-parser');
   var session      = require('express-session'); 
   var helpers      = require('./helpers');
+  var path         = require('path');
 
 module.exports = function(app, express){
 
@@ -59,6 +60,13 @@ module.exports = function(app, express){
    */
   require('../db/user/userRouter.js')(userRouter, passport);
   require('../db/recipe/recipeRouter.js')(recipeRouter);
+
+  /**
+   * To enable refreshing on sub pages
+   */
+  app.use(function(req, res) {
+    res.sendFile(path.resolve(__dirname + '/../../client/index.html'));
+  });
 };
 
 

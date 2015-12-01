@@ -23,6 +23,13 @@ module.exports = function(app, passport) {
     .post(UserController.login);
 
   /**
+   * To enable refreshing
+   */
+  app.use(function(req, res) {
+    res.sendfile(__dirname + '/client/index.html');
+  });
+
+  /**
    * Initial Route for google Login
    * Will redirect users to a google Auth page asking for access to the things in the scope array
    * Saves new user to DB if successful
