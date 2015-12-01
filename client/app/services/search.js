@@ -31,7 +31,6 @@ angular.module('SearchFactory', [])
           url: '/api/recipes/' + recipeID,
         })
         .then(function(data) {
-          console.log(data.data);
           return data.data;
         });
     };

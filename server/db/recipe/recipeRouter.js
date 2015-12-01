@@ -34,7 +34,9 @@ module.exports = function(app) {
         if (err) {
           console.log(err);
         }
-        res.send(data);
+        var parsed = JSON.parse(data);
+        parsed.message = "yooooooooo";
+        res.send(JSON.stringify(parsed));
       });
     });
 };

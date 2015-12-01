@@ -27,6 +27,7 @@ angular.module('recipes')
       // Use Search Factory to get recipe details
       Search.getSingleRecipe(recipeID)
       	.then(function(recipe) {
+          console.log(recipe.message);
         var modalInstance = $uibModal.open({
           animation: $scope.animationsEnabled,
           templateUrl: '/app/directives/recipeDetail/recipeDetail.html',
@@ -39,12 +40,15 @@ angular.module('recipes')
           }
         });
       });
+
+      
     };
 
   }])
   .controller('RecipeModalInstanceCtrl', ['$scope', '$uibModalInstance', 'ShoppingList', 'Scale', 'item', function($scope, $uibModalInstance, ShoppingList, Scale, item) {
   	// Item injected as dependency and resolved from RecipeModalCtrl
     $scope.currentRecipe = item;
+    console.log(item.message);
 
     /**
      * Scales recipe up or down depending on servings
