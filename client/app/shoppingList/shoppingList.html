@@ -5,6 +5,13 @@
                 <div ng-show="!list.recipes" class="col-xs-12">
                     <h1>Start Typing to Search For Recipes</h1>
                 </div>
+                <div class="col-xs-12">
+                    <div class="col-xs-2 col-xs-offset-10">
+                        <button class="btn btn-danger" ng-click="clearList()">Clear Cart</button>
+                    </div>
+                </div>
+                <hr>
+                <hr>
                 <div class="col-xs-6">
                     <div>
                         <div class="row" ng-repeat="item in list.recipes">
