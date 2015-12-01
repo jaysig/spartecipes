@@ -76,6 +76,13 @@ angular.module('ShoppingListFactory', [])
         }
       }
     };
+    /**
+     * Reset the list
+     */
+     var resetList = function(){
+      list=[];
+      User.updateUserList(list);
+     };
 
     /**
      * Returns true if recipe is already in the list
@@ -98,6 +105,7 @@ angular.module('ShoppingListFactory', [])
       getUserList: getUserList,
       getIngredientList: getIngredientList,
       removeFromList: removeFromList,
+      resetList: resetList,
       recipeInList: recipeInList
     };
 

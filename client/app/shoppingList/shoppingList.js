@@ -30,4 +30,12 @@ angular.module('recipes')
       ShoppingList.removeFromList(id);
       getUserList();
     };
+
+    /**
+     * Clears all the reciepes from the list
+     */
+      $scope.clearList = function() {
+      ShoppingList.resetList();
+      getUserList();
+    };
   }]);
