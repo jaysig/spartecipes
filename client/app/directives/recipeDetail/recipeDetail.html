@@ -1,6 +1,13 @@
 <div class="head">
     <h4><strong>{{currentRecipe.Title}}</strong></h4>
     <h5><strong>{{currentRecipe.Category}} - {{currentRecipe.Subcategory}}</strong></h5>
+    <h5><strong>Yields {{currentRecipe.YieldNumber}} {{currentRecipe.YieldUnit}}</strong></h5>
+    <form>
+        <h5><strong>Scale Recipe Below:</strong></h5>
+        <label>Desired Yield in Servings:</label>
+        <input type="number" min="0" ng-model="scaleFactor">
+        <button class="btn btn-default" ng-click="scaleRecipe(scaleFactor)">Submit</button>
+    </form>
     <h5><strong>Ingredients:</strong></h5>
     <div class="ingredients" ng-repeat="ingredient in currentRecipe.Ingredients">{{ingredient.DisplayQuantity}} {{ingredient.Unit}} {{ingredient.Name}}
         <br>
