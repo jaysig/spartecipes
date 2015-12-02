@@ -39,12 +39,18 @@
                     </div>
                 </div>
                 <div class="col-xs-6">
+                    <a class="btn pull-right" ng-model="unit" ng-click="metric = !metric">Show {{!metric && 'Metric' || 'Imperial'}}</a>
+
                     <div ng-repeat="ingredient in list.ingredients">
                         <p>{{ingredient.Name}}</p>
-                        <ul>
-                            <li ng-show="ingredient.quantity.sumString.length > 1">{{ingredient.quantity.sumString}}</li>
-                             <li ng-repeat="quantity in ingredient.quantity.unparsed">
+                        <ul ng-switch on="metric">
+                            <li ng-switch-when="false" ng-show="ingredient.quantity.sumString.length > 1">{{ingredient.quantity.sumString}}</li>
+                             <li ng-switch-when="false" ng-repeat="quantity in ingredient.quantity.unparsed">
                                 {{quantity.DisplayQuantity}} {{quantity.Unit}}
+                            </li>
+                            <li ng-switch-when="true" ng-show="ingredient.metricQuantity.sumString.length > 1">{{ingredient.metricQuantity.sumString}}</li>
+                            <li ng-switch-when="true" ng-repeat="quantity in ingredient.metricQuantity.unparsed">
+                                {{quantity.MetricDisplayQuantity}} {{quantity.MetricUnit}}
                             </li>
                         </ul>
                     </div>
