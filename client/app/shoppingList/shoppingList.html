@@ -6,8 +6,11 @@
                     <h1>Start Typing to Search For Recipes</h1>
                 </div>
                 <div class="col-xs-12">
-                    <div class="col-xs-2 col-xs-offset-10">
+                    <div class="col-xs-6">
                         <button class="btn btn-danger" ng-click="clearList()">Clear Cart</button>
+                    </div>
+                    <div class="col-xs-6">
+                        <button class="btn" ng-model="unit" ng-click="metric = !metric">Show {{!metric && 'Metric' || 'Imperial'}}</button>
                     </div>
                 </div>
                 <hr>
@@ -41,10 +44,14 @@
                 <div class="col-xs-6">
                     <div ng-repeat="ingredient in list.ingredients">
                         <p>{{ingredient.Name}}</p>
-                        <ul>
-                            <li ng-show="ingredient.quantity.sumString.length > 1">{{ingredient.quantity.sumString}}</li>
-                             <li ng-repeat="quantity in ingredient.quantity.unparsed">
+                        <ul ng-switch on="metric">
+                            <li ng-switch-when="false" ng-show="ingredient.quantity.sumString.length > 1">{{ingredient.quantity.sumString}}</li>
+                             <li ng-switch-when="false" ng-repeat="quantity in ingredient.quantity.unparsed">
                                 {{quantity.DisplayQuantity}} {{quantity.Unit}}
+                            </li>
+                            <li ng-switch-when="true" ng-show="ingredient.metricQuantity.sumString.length > 1">{{ingredient.metricQuantity.sumString}}</li>
+                            <li ng-switch-when="true" ng-repeat="quantity in ingredient.metricQuantity.unparsed">
+                                {{quantity.MetricDisplayQuantity}} {{quantity.MetricUnit}}
                             </li>
                         </ul>
                     </div>

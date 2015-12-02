@@ -1,6 +1,5 @@
 angular.module('IngredientFactory', [])
-  .factory('Ingredient', [function() {
-
+  .factory('Ingredient', [function () {
     var conversionList = {
       'pound': 'lbs',
       'pounds': 'lbs'
@@ -11,10 +10,11 @@ angular.module('IngredientFactory', [])
      * @param  {[array]} list [list of all ingredients]
      * @return {[array]}      [formatted and combined array]
      */
-    var formatIngredientList = function(list){
+    var formatIngredientList = function (list) {
       var orderedList = orderIngredients(list);
-      orderedList = _.map(orderedList, function(ingredient){
-        ingredient.quantity = addUnits(ingredient.quantity);
+      orderedList = _.map(orderedList, function (ingredient) {
+        ingredient.quantity = addUnits(ingredient.quantity, false);
+        ingredient.metricQuantity = addUnits(ingredient.metricQuantity, true);
         return ingredient;
       });
       return zip(orderedList);
@@ -24,15 +24,15 @@ angular.module('IngredientFactory', [])
      * Converts object into an array
      * Adds each property as an element
      * @param  {[object]} list [object]
-     * @return {[array]}       
+     * @return {[array]}
      */
-    var zip = function(list){
+    var zip = function (list) {
       var results = [];
-      for(var prop in list){
+      for (var prop in list) {
         results.push(list[prop]);
       }
       return results;
-    };  
+    };
 
     /**
      * Combines ingredients with the same IngredientID
@@ -40,19 +40,27 @@ angular.module('IngredientFactory', [])
      * @param  {[array]} ingredientList [Array of all ingredients]
      * @return {[objet]}                [Object with keys of IngredientID]
      */
-    var orderIngredients = function(ingredientList) {
-      return ingredientList.reduce(function(list, ingredient) {
+    var orderIngredients = function (ingredientList) {
+      return ingredientList.reduce(function (list, ingredient) {
         if (!list[ingredient.IngredientID]) {
           list[ingredient.IngredientID] = {
             Name: ingredient.Name,
-            quantity: []
+            quantity: [],
+            metricQuantity: []
           };
         }
+
         list[ingredient.IngredientID].quantity.push({
           Quantity: ingredient.Quantity,
           DisplayQuantity: ingredient.DisplayQuantity,
           Unit: ingredient.Unit
         });
+        list[ingredient.IngredientID].metricQuantity.push({
+          MetricQuantity: ingredient.MetricQuantity,
+          MetricDisplayQuantity: ingredient.MetricDisplayQuantity,
+          MetricUnit: ingredient.MetricUnit
+        });
+
         return list;
       }, {});
     };
@@ -62,11 +70,15 @@ angular.module('IngredientFactory', [])
      * Makes use of mathjs to add and convert units
      * @param {[array]} ingredients
      */
-    var addUnits = function(ingredients) {
+    var addUnits = function (ingredients, metric) {
+      return ingredients.reduce(function (list, item) {
+        var unitObj;
 
-      return ingredients.reduce(function(list, item) {
-
-        var unitObj = toUnit(item.Quantity, item.Unit);
+        if (!metric) {
+          unitObj = toUnit(item.Quantity, item.Unit);
+        } else {
+          unitObj = toUnit(item.MetricQuantity, item.MetricUnit);
+        }
 
         // if item is a recognized unit
         if (unitObj) {
@@ -79,7 +91,8 @@ angular.module('IngredientFactory', [])
           }
 
           // parse out a string
-          list.sumString = list.sumUnit.format(2);
+          var precision = metric ? 3 : 2;
+          list.sumString = list.sumUnit.format(precision);
           list.parsed.push(item);
         } else {
           list.unparsed.push(item);
@@ -97,12 +110,11 @@ angular.module('IngredientFactory', [])
     /**
      * Converts to mathjs library unit object
      * Returns false if not a valid mathjs unit
-     * @param  {[int]} quantity   
+     * @param  {[int]} quantity
      * @param  {[string]} unit     [name of unit]
      * @return {[boolean/object]}  [returns mathjs unit or false if not valid]
      */
-    var toUnit = function(quantity, unit) {
-
+    var toUnit = function (quantity, unit) {
       unit = unitConversion(unit);
 
       try {
@@ -119,7 +131,7 @@ angular.module('IngredientFactory', [])
      * @param  {[string]} unitName [current unit name]
      * @return {[string]}          [unit name or alias]
      */
-    var unitConversion = function(unitName) {
+    var unitConversion = function (unitName) {
       if (conversionList[unitName]) {
         return conversionList[unitName];
       } else {
