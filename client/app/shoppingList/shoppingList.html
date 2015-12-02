@@ -6,8 +6,11 @@
                     <h1>Start Typing to Search For Recipes</h1>
                 </div>
                 <div class="col-xs-12">
-                    <div class="col-xs-2 col-xs-offset-10">
+                    <div class="col-xs-6">
                         <button class="btn btn-danger" ng-click="clearList()">Clear Cart</button>
+                    </div>
+                    <div class="col-xs-6">
+                        <button class="btn" ng-model="unit" ng-click="metric = !metric">Show {{!metric && 'Metric' || 'Imperial'}}</button>
                     </div>
                 </div>
                 <hr>
@@ -39,8 +42,6 @@
                     </div>
                 </div>
                 <div class="col-xs-6">
-                    <a class="btn pull-right" ng-model="unit" ng-click="metric = !metric">Show {{!metric && 'Metric' || 'Imperial'}}</a>
-
                     <div ng-repeat="ingredient in list.ingredients">
                         <p>{{ingredient.Name}}</p>
                         <ul ng-switch on="metric">
