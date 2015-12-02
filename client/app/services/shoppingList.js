@@ -6,7 +6,7 @@ angular.module('ShoppingListFactory', [])
      * @type {Array}
      */
     var list = [];
-    $rootScope.search = false;
+
     var getList = function () {
       return {
         recipes: list,
