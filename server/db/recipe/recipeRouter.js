@@ -1,4 +1,5 @@
 var request = require('request');
+var nutrition = require('../../nutrition');
 
 module.exports = function(app) {
 
@@ -35,8 +36,9 @@ module.exports = function(app) {
           console.log(err);
         }
         var parsed = JSON.parse(data);
-        parsed.message = "yooooooooo";
-        res.send(JSON.stringify(parsed));
+        nutrition.addNutrition(parsed, function() {
+          res.send(JSON.stringify(parsed));
+        });
       });
     });
 };
