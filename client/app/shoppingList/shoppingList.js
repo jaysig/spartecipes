@@ -7,6 +7,7 @@ angular.module('recipes')
      * Initialize List Data
      */
     var getUserList = function(){
+      $rootScope.search = false;
       var deferred = ShoppingList.getUserList();
       if (deferred) {
         deferred
