@@ -2,6 +2,7 @@ angular.module('recipes')
   .controller('ShoppingListCtrl', ['$scope', '$rootScope', 'ShoppingList', function($scope, $rootScope, ShoppingList) {
 
     $scope.metric = false;
+    
 
     /**
      * Initialize List Data
@@ -23,6 +24,11 @@ angular.module('recipes')
     $rootScope.$on('userAction', function() {
       getUserList();
     });
+     /**
+     * Disable search on the shopping cart page
+     */
+
+
     /**
      * Remove a recipe from the list and refreshes scope list with
      * recipes and ingredients
