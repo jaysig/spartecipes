@@ -1,6 +1,8 @@
 angular.module('recipes')
   .controller('ShoppingListCtrl', ['$scope', '$rootScope', 'ShoppingList', function($scope, $rootScope, ShoppingList) {
 
+    $scope.metric = false;
+
     /**
      * Initialize List Data
      */
