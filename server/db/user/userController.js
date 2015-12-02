@@ -2,7 +2,6 @@ var Promise = require('bluebird');
 var passport = require('passport');
 var jwt = require('jwt-simple');
 var User = require('./userModel.js');
-var Recipe = require('../recipe/recipeModel.js');
 
 
 exports.getUserList = function(req, res, next) {
