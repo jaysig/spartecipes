@@ -20,27 +20,32 @@ var prepareNumber = function(str) {
 module.exports.addNutrition = function(recipe, cb) {
   var process = function(ingredient, err, response, data) {
     ingredient.Nutrition = {};
-    var ingredientResult = JSON.parse(data).hits[0];
-    try {
-      var recipeUnit = math.unit(prepareNumber(ingredient.DisplayQuantity), ingredient.Unit);
-      var nutritionUnit = math.unit(ingredientResult.fields.nf_serving_size_qty, ingredientResult.fields.nf_serving_size_unit);
-      var multiplier = recipeUnit.toNumber(ingredientResult.fields.nf_serving_size_unit) / nutritionUnit.toNumber(ingredientResult.fields.nf_serving_size_unit);
-      ingredient.Nutrition.Calories = ingredientResult.fields.nf_calories * multiplier;
-      ingredient.Nutrition['Calories from fat'] = ingredientResult.fields.nf_calories_from_fat * multiplier;
-      ingredient.Nutrition['Total fat'] = ingredientResult.fields.nf_total_fat * multiplier;
-      ingredient.Nutrition.Cholesterol = ingredientResult.fields.nf_cholesterol * multiplier;
-      ingredient.Nutrition.Sodium = ingredientResult.fields.nf_sodium * multiplier;
-      ingredient.Nutrition['Total carbohydrate'] = ingredientResult.fields.nf_total_carbohydrate * multiplier;
-      ingredient.Nutrition.Protein = ingredientResult.fields.nf_protein * multiplier;
-    } catch (e) {
-      console.log('Unknown unit ' + ingredient.Unit + ' or ' + ingredientResult.fields.nf_serving_size_unit);
-      ingredient.Nutrition.Calories = 0;
-      ingredient.Nutrition['Calories from fat'] = 0;
-      ingredient.Nutrition['Total fat'] = 0;
-      ingredient.Nutrition.Cholesterol = 0;
-      ingredient.Nutrition.Sodium = 0;
-      ingredient.Nutrition['Total carbohydrate'] = 0;
-      ingredient.Nutrition.Protein = 0;
+    var ingredientResult;
+    if (JSON.parse(data).hits) {
+      ingredientResult = JSON.parse(data).hits[0];
+      try {
+        var recipeUnit = math.unit(prepareNumber(ingredient.DisplayQuantity), ingredient.Unit);
+        var nutritionUnit = math.unit(ingredientResult.fields.nf_serving_size_qty, ingredientResult.fields.nf_serving_size_unit);
+        var multiplier = recipeUnit.toNumber(ingredientResult.fields.nf_serving_size_unit) / nutritionUnit.toNumber(ingredientResult.fields.nf_serving_size_unit);
+        ingredient.Nutrition.Calories = ingredientResult.fields.nf_calories * multiplier;
+        ingredient.Nutrition['Calories from fat'] = ingredientResult.fields.nf_calories_from_fat * multiplier;
+        ingredient.Nutrition['Total fat'] = ingredientResult.fields.nf_total_fat * multiplier;
+        ingredient.Nutrition.Cholesterol = ingredientResult.fields.nf_cholesterol * multiplier;
+        ingredient.Nutrition.Sodium = ingredientResult.fields.nf_sodium * multiplier;
+        ingredient.Nutrition['Total carbohydrate'] = ingredientResult.fields.nf_total_carbohydrate * multiplier;
+        ingredient.Nutrition.Protein = ingredientResult.fields.nf_protein * multiplier;
+      } catch (e) {
+        console.log('Unknown unit ' + ingredient.Unit + ' or ' + ingredientResult.fields.nf_serving_size_unit);
+        ingredient.Nutrition.Calories = 0;
+        ingredient.Nutrition['Calories from fat'] = 0;
+        ingredient.Nutrition['Total fat'] = 0;
+        ingredient.Nutrition.Cholesterol = 0;
+        ingredient.Nutrition.Sodium = 0;
+        ingredient.Nutrition['Total carbohydrate'] = 0;
+        ingredient.Nutrition.Protein = 0;
+      }
+    } else {
+      console.log('No nutrition results for ingredient ' + ingredient.Name);
     }
 
     for (var i = 0; i < recipe.Ingredients.length; i++) {
