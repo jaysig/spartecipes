@@ -53,7 +53,10 @@ angular.module('recipes')
     $scope.currentRecipe = item;
     Nutrition.getNutrition($scope.currentRecipe.RecipeID)
       .then(function(result) {
-        $scope.currentRecipe = result;
+        for (var i = 0; i < result.Ingredients.length; i++) {
+          $scope.currentRecipe.Ingredients[i].Nutrients = result.Ingredients[i].Nutrients;
+        }
+        $scope.currentRecipe.nutritionTotals = result.nutritionTotals;
       });
 
     /**
