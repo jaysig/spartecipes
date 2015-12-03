@@ -20,8 +20,17 @@ var prepareNumber = function(str) {
 module.exports.addNutrition = function(recipe, cb) {
   var process = function(ingredient, err, response, data) {
     ingredient.Nutrition = {};
+    /*----------------------------*/
+    ingredient.Nutrition.Calories = 500;
+        ingredient.Nutrition['Calories from fat'] = 500;
+        ingredient.Nutrition['Total fat'] = 500;
+        ingredient.Nutrition.Cholesterol = 500;
+        ingredient.Nutrition.Sodium = 500;
+        ingredient.Nutrition['Total carbohydrate'] = 500;
+        ingredient.Nutrition.Protein = 500;
+    /*----------------------------------------*/
     var ingredientResult;
-    if (JSON.parse(data).hits) {
+    if (data && JSON.parse(data).hits) {
       ingredientResult = JSON.parse(data).hits[0];
       try {
         var recipeUnit = math.unit(prepareNumber(ingredient.DisplayQuantity), ingredient.Unit);
@@ -60,7 +69,7 @@ module.exports.addNutrition = function(recipe, cb) {
   for (var i = 0; i < recipe.Ingredients.length; i++) {
     var url = 'https://api.nutritionix.com/v1_1/search/' + encodeURIComponent(recipe.Ingredients[i].Name) + '?fields=item_name%2Cnf_calories%2Cnf_total_fat%2Cnf_calories_from_fat%2Cnf_cholesterol%2Cnf_sodium%2Cnf_total_carbohydrate%2Cnf_protein%2Cnf_serving_size_unit%2Cnf_serving_size_qty&appId=' + NUTRITIONIX_APP_ID + '&appKey=' + NUTRITIONIX_APP_KEY;
     request.get({
-      url: url
+      url: ''//url
     }, process.bind(null, recipe.Ingredients[i]));
   }
 };
