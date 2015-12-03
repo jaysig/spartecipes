@@ -6,19 +6,16 @@ angular.module('recipes.search', [])
       templateUrl: 'app/directives/search/search.html',
       controller: 'SearchCtrl',
       link: function(scope, el, attr) {
-
         $rootScope.search = true;
         var searchbar = el.find('#searchtext');
-
+        var pastValue = '';
+        var charArray = [];
         scope.$on('keypress', function(onEvent, keypressEvent) {
           if ($rootScope.search) {
 
-            // On escape
-            if (keypressEvent.which === 27) {
-              searchbar.val('').blur();
-              el.fadeOut(200);
+            console.log(pastValue+ ' pre');
               // On enter
-            } else if (keypressEvent.which === 13) {
+             if (keypressEvent.which === 13) {
               $rootScope.$broadcast('search', searchbar.val().toLowerCase());
               searchbar.val('').blur();
               el.fadeOut(200);
@@ -27,11 +24,27 @@ angular.module('recipes.search', [])
               if(!el.is(':visible')){
                 searchbar.val(String.fromCharCode(keypressEvent.which));
               }
-              scope.key = String.fromCharCode(keypressEvent.which);
+              var charStr = String.fromCharCode(keypressEvent.which);
+              if (/[^a-zA-Z\b]/.test(charStr) && keypressEvent.which !== 27) {
+                searchbar.val(pastValue);
+              }
               searchbar.focus();
               el.fadeIn(200);
+              console.log(searchbar.val() + ' sb Val test');
+              if(keypressEvent.which !== 27){
+                pastValue = searchbar.val();
+              }
             }
+            console.log(pastValue+ ' ending');
           }
+           // On escape
+            if (keypressEvent.which === 27) {
+              searchbar.val('').blur();
+              pastValue = '';
+              el.fadeOut(200);
+              } else{
+                searchbar.val(pastValue);
+              }
         });
       }
     };
