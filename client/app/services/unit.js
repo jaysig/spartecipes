@@ -35,6 +35,43 @@ angular.module('IngredientFactory', [])
     };
 
     /**
+     * Retrieves the ingredient quantity from ingredient.DisplayQuantity
+     * @param  {[object]} item [Ingredient from recipe]
+     * @return {[int]}  quantity [parsed ingredient quantity]
+     */
+    var getQuantityImperical = function (item) {
+      var w = item.DisplayQuantity.match(/\d+/);
+      var f = item.DisplayQuantity.match(/\d+\/\d+/);
+      var num;
+      var decimal;
+      var quantity;
+
+      if(item.DisplayQuantity.length === 5) {
+        num = parseInt(w[0]);
+        decimal = math.fraction(f[0]);
+        quantity = num + decimal.n/decimal.d;
+      } else if (item.DisplayQuantity.length === 3) {
+        decimal = math.fraction(f[0]);
+        quantity = decimal.n/decimal.d;
+      } else if (item.DisplayQuantity.length === 1) {
+        num = parseInt(w[0]);
+        quantity = num;
+      }
+
+      return quantity;
+    };
+
+    /**
+     * Retrieves the ingredient quantity from ingredient.MetricDisplayQuantity
+     * @param  {[object]} item [Ingredient from recipe]
+     * @return {[int]}  quantity [parsed ingredient quantity]
+     */
+    var getQuantityMetric = function (item) {
+      var quantity = parseFloat(item.MetricDisplayQuantity);
+      return quantity;
+    };
+
+    /**
      * Combines ingredients with the same IngredientID
      * Preserves name and adds quantity info to quantity property
      * @param  {[array]} ingredientList [Array of all ingredients]
@@ -51,12 +88,12 @@ angular.module('IngredientFactory', [])
         }
 
         list[ingredient.IngredientID].quantity.push({
-          Quantity: ingredient.Quantity,
+          Quantity: getQuantityImperical(ingredient),
           DisplayQuantity: ingredient.DisplayQuantity,
           Unit: ingredient.Unit
         });
         list[ingredient.IngredientID].metricQuantity.push({
-          MetricQuantity: ingredient.MetricQuantity,
+          MetricQuantity: getQuantityMetric(ingredient),
           MetricDisplayQuantity: ingredient.MetricDisplayQuantity,
           MetricUnit: ingredient.MetricUnit
         });
@@ -64,6 +101,7 @@ angular.module('IngredientFactory', [])
         return list;
       }, {});
     };
+
 
     /**
      * Sums and formats an array of quantities
@@ -74,10 +112,11 @@ angular.module('IngredientFactory', [])
       return ingredients.reduce(function (list, item) {
         var unitObj;
 
+
         if (!metric) {
-          unitObj = toUnit(item.Quantity, item.Unit);
+          unitObj = toUnit(getQuantityImperical(item), item.Unit);
         } else {
-          unitObj = toUnit(item.MetricQuantity, item.MetricUnit);
+          unitObj = toUnit(getQuantityMetric(item), item.MetricUnit);
         }
 
         // if item is a recognized unit

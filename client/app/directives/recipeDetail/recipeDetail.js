@@ -42,9 +42,16 @@ angular.module('recipes')
     };
 
   }])
-  .controller('RecipeModalInstanceCtrl', ['$scope', '$uibModalInstance', 'ShoppingList', 'item', function($scope, $uibModalInstance, ShoppingList, item) {
+  .controller('RecipeModalInstanceCtrl', ['$scope', '$uibModalInstance', 'ShoppingList', 'Scale', 'item', function($scope, $uibModalInstance, ShoppingList, Scale, item) {
   	// Item injected as dependency and resolved from RecipeModalCtrl
     $scope.currentRecipe = item;
+
+    /**
+     * Scales recipe up or down depending on servings
+     */
+    $scope.scaleRecipe = function(scaleFactor) {
+      Scale.scaleRecipe(scaleFactor, item);
+    };
 
     /**
      * Closes modal window
