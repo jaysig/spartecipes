@@ -36,3 +36,6 @@ server/keys.js
 #webstorm files
 .idea
 
+#ds store files
+.DS_Store
+
