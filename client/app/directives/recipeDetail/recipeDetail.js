@@ -48,26 +48,13 @@ angular.module('recipes')
 
   }])
 
-  .controller('RecipeModalInstanceCtrl', ['$scope', '$uibModalInstance', '$http', 'ShoppingList', 'item', function($scope, $uibModalInstance, $http, ShoppingList, item) {
+  .controller('RecipeModalInstanceCtrl', ['$scope', '$uibModalInstance', 'Nutrition', 'Scale', 'ShoppingList', 'item', function($scope, $uibModalInstance, Nutrition, Scale, ShoppingList, item) {
   	// Item injected as dependency and resolved from RecipeModalCtrl
     $scope.currentRecipe = item;
-    console.log($scope.currentRecipe.RecipeID);
-    $http({
-          method: 'GET',
-          url: '/api/recipes/nutrition/' + $scope.currentRecipe.RecipeID,
-        })
-        .then(function(data) {
-          $scope.nutritionTotals = {};
-          var nutrientStrings = ['Calories', 'Calories from fat', 'Total fat', 'Cholesterol', 'Sodium', 'Total carbohydrate', 'Protein'];
-          for (var i = 0; i < nutrientStrings.length; i++) {
-            $scope.nutritionTotals[nutrientStrings[i]] = 0;
-            for (var j = 0; j < data.data.Ingredients.length; j++) {
-              $scope.nutritionTotals[nutrientStrings[i]] += data.data.Ingredients[j].Nutrition[nutrientStrings[i]];
-            }
-            $scope.nutritionTotals[nutrientStrings[i]] = ~~$scope.nutritionTotals[nutrientStrings[i]];
-          }
-          console.log($scope.nutritionTotals);          
-        });
+    Nutrition.getNutrition($scope.currentRecipe.RecipeID)
+      .then(function(result) {
+        $scope.currentRecipe = result;
+      });
 
     /**
      * Scales recipe up or down depending on servings
