@@ -37,6 +37,7 @@ module.exports = function(app) {
         }
         var parsed = JSON.parse(data);
         nutrition.addNutrition(parsed, function() {
+          //console.log(JSON.stringify(parsed));
           res.send(JSON.stringify(parsed));
         });
       });
