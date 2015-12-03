@@ -59,7 +59,7 @@ angular.module('recipes')
     });
 
   /**
-   * Scales recipe up or down depending on servings
+   * Scales recipe based on desired servings defined by user
    */
   $scope.scaleRecipe = function(scaleFactor) {
     Scale.scaleRecipe(scaleFactor, item);

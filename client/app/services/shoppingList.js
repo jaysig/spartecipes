@@ -38,7 +38,7 @@ angular.module('ShoppingListFactory', [])
           });
         });
       });
-      console.log("INSIDE ADDTOLIST: ",recipe);
+      
       list.push(recipe);
       User.updateUserList(list);
     };
