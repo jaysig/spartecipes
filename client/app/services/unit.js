@@ -35,24 +35,46 @@ angular.module('IngredientFactory', [])
     };
 
     /**
+     * Checks item display quantity to see if it's a range ie ["10-12"]
+     * @param  {[object]} item [Ingredient from recipe]
+     * @return {[int]}  quantity [parsed highest ingredient quantity]
+     */
+    var rangeQuantityImperial = function (item) {
+      if(!!item.DisplayQuantity.match(/-/)) {
+        var nums = item.DisplayQuantity.split("-");
+        return parseInt(Math.round(nums[1]));
+      }
+    };
+
+    /**
      * Retrieves the ingredient quantity from ingredient.DisplayQuantity
      * @param  {[object]} item [Ingredient from recipe]
      * @return {[int]}  quantity [parsed ingredient quantity]
      */
-    var getQuantityImperical = function (item) {
+    var getQuantityImperial = function (item) {
+      var num, decimal, quantity;
+
+      if(item.DisplayQuantity === null) {
+        item.DisplayQuantity = '';
+        return item.DisplayQuantity;
+      }
+
       var w = item.DisplayQuantity.match(/\d+/);
       var f = item.DisplayQuantity.match(/\d+\/\d+/);
-      var num;
-      var decimal;
-      var quantity;
+
+      if(f === null){
+        return rangeQuantityImperial(item);        
+      }
 
       if(item.DisplayQuantity.length === 5) {
         num = parseInt(w[0]);
         decimal = math.fraction(f[0]);
         quantity = num + decimal.n/decimal.d;
+        
       } else if (item.DisplayQuantity.length === 3) {
         decimal = math.fraction(f[0]);
         quantity = decimal.n/decimal.d;
+
       } else if (item.DisplayQuantity.length === 1) {
         num = parseInt(w[0]);
         quantity = num;
@@ -61,13 +83,25 @@ angular.module('IngredientFactory', [])
       return quantity;
     };
 
+
     /**
      * Retrieves the ingredient quantity from ingredient.MetricDisplayQuantity
      * @param  {[object]} item [Ingredient from recipe]
      * @return {[int]}  quantity [parsed ingredient quantity]
      */
     var getQuantityMetric = function (item) {
-      var quantity = parseFloat(item.MetricDisplayQuantity);
+      var quantity;
+      if(item.MetricDisplayQuantity === null) {
+        item.MetricDisplayQuantity = '';
+        return item.MetricDisplayQuantity;
+      }
+
+      if(!!item.MetricDisplayQuantity.match(/-/)) {
+        var nums = item.MetricDisplayQuantity.split("-");
+        return parseInt(Math.round(nums[1]));
+      }
+
+      quantity = parseFloat(item.MetricDisplayQuantity);
       return quantity;
     };
 
@@ -88,7 +122,7 @@ angular.module('IngredientFactory', [])
         }
 
         list[ingredient.IngredientID].quantity.push({
-          Quantity: getQuantityImperical(ingredient),
+          Quantity: getQuantityImperial(ingredient),
           DisplayQuantity: ingredient.DisplayQuantity,
           Unit: ingredient.Unit
         });
@@ -112,9 +146,8 @@ angular.module('IngredientFactory', [])
       return ingredients.reduce(function (list, item) {
         var unitObj;
 
-
         if (!metric) {
-          unitObj = toUnit(getQuantityImperical(item), item.Unit);
+          unitObj = toUnit(getQuantityImperial(item), item.Unit);
         } else {
           unitObj = toUnit(getQuantityMetric(item), item.MetricUnit);
         }
