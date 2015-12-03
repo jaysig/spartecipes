@@ -24,6 +24,8 @@ angular.module('recipes')
   	 * @param  {number} recipeID [ID for recipe]
   	 */
     $scope.openModal = function(recipeID) {
+      console.log(recipeID);
+      $scope.recipeID = recipeID;
       // Use Search Factory to get recipe details
       Search.getSingleRecipe(recipeID)
       	.then(function(recipe) {
@@ -45,10 +47,27 @@ angular.module('recipes')
     };
 
   }])
-  .controller('RecipeModalInstanceCtrl', ['$scope', '$uibModalInstance', 'ShoppingList', 'Scale', 'item', function($scope, $uibModalInstance, ShoppingList, Scale, item) {
+
+  .controller('RecipeModalInstanceCtrl', ['$scope', '$uibModalInstance', '$http', 'ShoppingList', 'item', function($scope, $uibModalInstance, $http, ShoppingList, item) {
   	// Item injected as dependency and resolved from RecipeModalCtrl
     $scope.currentRecipe = item;
-    console.log(item.message);
+    console.log($scope.currentRecipe.RecipeID);
+    $http({
+          method: 'GET',
+          url: '/api/recipes/nutrition/' + $scope.currentRecipe.RecipeID,
+        })
+        .then(function(data) {
+          $scope.nutritionTotals = {};
+          var nutrientStrings = ['Calories', 'Calories from fat', 'Total fat', 'Cholesterol', 'Sodium', 'Total carbohydrate', 'Protein'];
+          for (var i = 0; i < nutrientStrings.length; i++) {
+            $scope.nutritionTotals[nutrientStrings[i]] = 0;
+            for (var j = 0; j < data.data.Ingredients.length; j++) {
+              $scope.nutritionTotals[nutrientStrings[i]] += data.data.Ingredients[j].Nutrition[nutrientStrings[i]];
+            }
+            $scope.nutritionTotals[nutrientStrings[i]] = ~~$scope.nutritionTotals[nutrientStrings[i]];
+          }
+          console.log($scope.nutritionTotals);          
+        });
 
     /**
      * Scales recipe up or down depending on servings
