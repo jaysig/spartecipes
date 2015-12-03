@@ -66,12 +66,15 @@ angular.module('recipes')
     Scale.scaleRecipe(scaleFactor, item);
   };
 
+  $scope.$on('$destroy', function() {
+    $rootScope.search = true;
+  });
+
   /**
    * Closes modal window
    */
   $scope.close = function() {
     $uibModalInstance.close();
-    $rootScope.search = true;
   };
 
   /**
