@@ -31,6 +31,8 @@ client/lib/
 
 # Super Secret Stuff
 server/config/auth.js
+server/keys.js
 
 #webstorm files
 .idea
+

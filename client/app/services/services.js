@@ -8,5 +8,6 @@ angular.module('recipes.services', [
   'StateFactory',
   'UserFactory',
   'IngredientFactory',
-  'ScaleFactory'
+  'ScaleFactory',
+  'NutritionFactory'
   ]);
