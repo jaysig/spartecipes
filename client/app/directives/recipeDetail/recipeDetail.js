@@ -46,9 +46,10 @@ angular.module('recipes')
 
   }])
 
-.controller('RecipeModalInstanceCtrl', ['$scope', '$uibModalInstance', 'Nutrition', 'Scale', 'ShoppingList', 'item', function($scope, $uibModalInstance, Nutrition, Scale, ShoppingList, item) {
+.controller('RecipeModalInstanceCtrl', ['$scope', '$rootScope', '$uibModalInstance', 'Nutrition', 'Scale', 'ShoppingList', 'item', function($scope, $rootScope, $uibModalInstance, Nutrition, Scale, ShoppingList, item) {
   // Item injected as dependency and resolved from RecipeModalCtrl
   $scope.currentRecipe = item;
+  $rootScope.search = false;
   Nutrition.getNutrition($scope.currentRecipe.RecipeID)
     .then(function(result) {
       for (var i = 0; i < result.Ingredients.length; i++) {
@@ -69,6 +70,7 @@ angular.module('recipes')
    */
   $scope.close = function() {
     $uibModalInstance.close();
+    $rootScope.search = true;
   };
 
   /**
