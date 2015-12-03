@@ -10,11 +10,11 @@ angular.module('ScaleFactory', [])
       var fraction = parseFloat(quantity.toString().match(/\.\d+/));
 
       if(!wholeNum) {
-        wholeNum = null;
+        wholeNum = '';
       }
 
       if(!fraction ) {
-        fraction = null;
+        fraction = '';
       } else {
         fraction = math.fraction(fraction);
       }
@@ -48,12 +48,11 @@ angular.module('ScaleFactory', [])
         if(item.DisplayQuantity) {
           item.DisplayQuantity = formatAmount(scaledImperical[i]);
           item.MetricDisplayQuantity = scaledMetric[i];
-          }
+        }
       });
     };
 
   	return {
   		scaleRecipe: scaleRecipe,
   	};
-
   });
