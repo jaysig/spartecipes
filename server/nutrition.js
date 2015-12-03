@@ -28,6 +28,7 @@ module.exports.addNutrition = function(recipe, cb) {
         ingredient.Nutrition.Sodium = 500;
         ingredient.Nutrition['Total carbohydrate'] = 500;
         ingredient.Nutrition.Protein = 500;
+        ingredient.Nutrition.complete = false;
     /*----------------------------------------*/
     var ingredientResult;
     if (data && JSON.parse(data).hits) {
@@ -43,6 +44,7 @@ module.exports.addNutrition = function(recipe, cb) {
         ingredient.Nutrition.Sodium = ingredientResult.fields.nf_sodium * multiplier;
         ingredient.Nutrition['Total carbohydrate'] = ingredientResult.fields.nf_total_carbohydrate * multiplier;
         ingredient.Nutrition.Protein = ingredientResult.fields.nf_protein * multiplier;
+        ingredient.Nutrition.complete = true;
       } catch (e) {
         console.log('Unknown unit ' + ingredient.Unit + ' or ' + ingredientResult.fields.nf_serving_size_unit);
         ingredient.Nutrition.Calories = 0;
@@ -52,6 +54,7 @@ module.exports.addNutrition = function(recipe, cb) {
         ingredient.Nutrition.Sodium = 0;
         ingredient.Nutrition['Total carbohydrate'] = 0;
         ingredient.Nutrition.Protein = 0;
+        ingredient.Nutrition.complete = false;
       }
     } else {
       console.log('No nutrition results for ingredient ' + ingredient.Name);

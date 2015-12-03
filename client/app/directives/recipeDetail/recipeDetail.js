@@ -56,6 +56,7 @@ angular.module('recipes')
         $scope.currentRecipe.Ingredients[i].Nutrients = result.Ingredients[i].Nutrients;
       }
       $scope.currentRecipe.nutritionTotals = result.nutritionTotals;
+      $scope.currentRecipe.nutritionComplete = result.nutritionComplete;
     });
 
   /**

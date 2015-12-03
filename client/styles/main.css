@@ -215,6 +215,10 @@ img.mylogo {
   padding-left: 30px;
 }
 
+.warning {
+  color: red;
+}
+
 /*!
  * Start Bootstrap - Simple Sidebar HTML Template (http://startbootstrap.com)
  * Code licensed under the Apache License v2.0.

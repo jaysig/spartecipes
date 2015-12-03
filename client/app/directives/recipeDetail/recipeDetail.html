@@ -17,6 +17,7 @@
     <h5><strong>Nutrition information:</strong></h5>
       <div class="ingredients" ng-show="currentRecipe.nutritionTotals === undefined">Loading...</div>
       <div class="ingredients" ng-show="currentRecipe.nutritionTotals !== undefined" ng-repeat="(key,val) in currentRecipe.nutritionTotals">{{key}}: {{val}}</div>
+      <div class="ingredients warning" ng-show="currentRecipe.nutritionTotals !== undefined && !currentRecipe.nutritionComplete">Some nutrition information could not be found</div>
 </div>
 <div class="modal-footer">
     <button class="btn btn-default" type="button" ng-click="close()">Go Back</button>
