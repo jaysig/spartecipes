@@ -9,11 +9,9 @@ angular.module('recipes.search', [])
         $rootScope.search = true;
         var searchbar = el.find('#searchtext');
         var pastValue = '';
-        var charArray = [];
         scope.$on('keypress', function(onEvent, keypressEvent) {
           if ($rootScope.search) {
 
-            console.log(pastValue+ ' pre');
               // On enter
              if (keypressEvent.which === 13) {
               $rootScope.$broadcast('search', searchbar.val().toLowerCase());
@@ -30,12 +28,10 @@ angular.module('recipes.search', [])
               }
               searchbar.focus();
               el.fadeIn(200);
-              console.log(searchbar.val() + ' sb Val test');
               if(keypressEvent.which !== 27){
                 pastValue = searchbar.val();
               }
             }
-            console.log(pastValue+ ' ending');
           }
            // On escape
             if (keypressEvent.which === 27) {
