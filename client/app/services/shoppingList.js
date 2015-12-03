@@ -100,9 +100,7 @@ angular.module('ShoppingListFactory', [])
      * Reset the list
      */
      var resetList = function(){
-      for (var i = 0; i < list.length; i++) {
-          list.splice(i, 1);
-      }
+      list = [];
       User.updateUserList(list);
      };
 
