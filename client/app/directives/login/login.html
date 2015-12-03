@@ -1,7 +1,8 @@
 <form>
     <div class="modal-header">
         <button ng-click="close()" type="button" class="close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Login</h4>
+        <h4 class="modal-title" id="myModalLabel" ng-show="showLogin">Login</h4>
+        <h4 class="modal-title" id="myModalLabel" ng-show="!showLogin">Sign up</h4>
     </div>
     <div class="modal-body">
         <div ng-show="message" class="alert alert-danger" role="alert">
@@ -17,7 +18,9 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button ng-click="login()" type="submit" class="btn btn-default">Login</button>
-        <button ng-click="signup()" type="button" class="btn btn-primary">Create Account</button>
+        <button ng-click="toggleLogin()" type="button" class="btn btn-default" ng-show="showLogin">Need an account?</button>
+        <button ng-click="toggleLogin()" type="button" class="btn btn-default" ng-show="!showLogin">Have an account?</button>
+        <button ng-click="login()" type="submit" class="btn btn-primary" ng-show="showLogin">Login</button>
+        <button ng-click="signup()" type="submit" class="btn btn-primary" ng-show="!showLogin">Sign up</button>
     </div>
 </form>
