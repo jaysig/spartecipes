@@ -1,6 +1,13 @@
-var keys = require('./keys');
 var request = require('request');
 var math = require('mathjs');
+
+var NUTRITIONIX_APP_ID, NUTRITIONIX_APP_KEY;
+try {
+  NUTRITIONIX_APP_ID = process.env.NUTRITIONIX_APP_ID || require('./keys').NUTRITIONIX_APP_ID;
+  NUTRITIONIX_APP_KEY = process.env.NUTRITIONIX_APP_KEY || require('./keys').NUTRITIONIX_APP_KEY;
+} catch (e) {
+  console.log(e);
+}
 
 var nutrientStrings = ['Calories', 'Calories from fat', 'Total fat', 'Cholesterol', 'Sodium', 'Total carbohydrate', 'Protein'];
 
@@ -17,8 +24,6 @@ module.exports.addNutrition = function(recipe, cb) {
     try {
       var recipeUnit = math.unit(prepareNumber(ingredient.DisplayQuantity), ingredient.Unit);
       var nutritionUnit = math.unit(ingredientResult.fields.nf_serving_size_qty, ingredientResult.fields.nf_serving_size_unit);
-      console.log(recipeUnit.toString());
-      console.log(nutritionUnit.toString());
       var multiplier = recipeUnit.toNumber(ingredientResult.fields.nf_serving_size_unit) / nutritionUnit.toNumber(ingredientResult.fields.nf_serving_size_unit);
       ingredient.Nutrition['Calories'] = ingredientResult.fields.nf_calories * multiplier;
       ingredient.Nutrition['Calories from fat'] = ingredientResult.fields.nf_calories_from_fat * multiplier;
@@ -47,7 +52,7 @@ module.exports.addNutrition = function(recipe, cb) {
     }
   }
   for (var i = 0; i < recipe.Ingredients.length; i++) {
-    var url = 'https://api.nutritionix.com/v1_1/search/' + encodeURIComponent(recipe.Ingredients[i].Name) + '?fields=item_name%2Cnf_calories%2Cnf_total_fat%2Cnf_calories_from_fat%2Cnf_cholesterol%2Cnf_sodium%2Cnf_total_carbohydrate%2Cnf_protein%2Cnf_serving_size_unit%2Cnf_serving_size_qty&appId=' + keys.NUTRITIONIX_APP_ID + '&appKey=' + keys.NUTRITIONIX_APP_KEY;
+    var url = 'https://api.nutritionix.com/v1_1/search/' + encodeURIComponent(recipe.Ingredients[i].Name) + '?fields=item_name%2Cnf_calories%2Cnf_total_fat%2Cnf_calories_from_fat%2Cnf_cholesterol%2Cnf_sodium%2Cnf_total_carbohydrate%2Cnf_protein%2Cnf_serving_size_unit%2Cnf_serving_size_qty&appId=' + NUTRITIONIX_APP_ID + '&appKey=' + NUTRITIONIX_APP_KEY;
     request.get({
       url: url
     }, process.bind(null, recipe.Ingredients[i]));
