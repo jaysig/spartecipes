@@ -205,6 +205,10 @@ img.mylogo {
   height: 250px;
 }
 
+.link {
+  cursor: pointer;
+}
+
 .head {
   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
   font-size: 18px;
