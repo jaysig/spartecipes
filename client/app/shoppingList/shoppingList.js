@@ -21,9 +21,6 @@ angular.module('recipes')
 
     getUserList();
 
-    /*$rootScope.$on('userAction', function() {
-      getUserList();
-    });*/
     /**
      * Remove a recipe from the list and refreshes scope list with
      * recipes and ingredients
