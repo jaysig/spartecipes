@@ -31,7 +31,7 @@ angular.module('recipes')
      */
     $scope.removeItem = function(id) {
       ShoppingList.removeFromList(id);
-      getList();     
+      $scope.list = ShoppingList.getList();     
     };
 
     /**
