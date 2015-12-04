@@ -35,9 +35,9 @@ module.exports.addNutrition = function(recipe, cb) {
         ingredient.Nutrition.complete = false;
     /*----------------------------------------*/
     var ingredientResult;
-    try {
-      if (data && JSON.parse(data).hits) {
-        ingredientResult = JSON.parse(data).hits[0];
+    if (JSON.parse(data).hits) {
+      ingredientResult = JSON.parse(data).hits[0];
+      try {
         var recipeUnit = math.unit(prepareNumber(ingredient.DisplayQuantity), ingredient.Unit);
         var nutritionUnit = math.unit(ingredientResult.fields.nf_serving_size_qty, ingredientResult.fields.nf_serving_size_unit);
         var multiplier = recipeUnit.toNumber(ingredientResult.fields.nf_serving_size_unit) / nutritionUnit.toNumber(ingredientResult.fields.nf_serving_size_unit);
