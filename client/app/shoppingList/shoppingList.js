@@ -31,7 +31,7 @@ angular.module('recipes')
      */
     $scope.removeItem = function(id) {
       ShoppingList.removeFromList(id);
-      setTimeout(100, getUserList.bind(this));      
+      getList();     
     };
 
     /**
