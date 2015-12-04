@@ -35,9 +35,9 @@ module.exports.addNutrition = function(recipe, cb) {
         ingredient.Nutrition.complete = false;
     /*----------------------------------------*/
     var ingredientResult;
-    if (JSON.parse(data).hits) {
-      ingredientResult = JSON.parse(data).hits[0];
-      try {
+    try {
+      if (data && JSON.parse(data).hits) {
+        ingredientResult = JSON.parse(data).hits[0];
         var recipeUnit = math.unit(prepareNumber(ingredient.DisplayQuantity), ingredient.Unit);
         var nutritionUnit = math.unit(ingredientResult.fields.nf_serving_size_qty, ingredientResult.fields.nf_serving_size_unit);
         var multiplier = recipeUnit.toNumber(ingredientResult.fields.nf_serving_size_unit) / nutritionUnit.toNumber(ingredientResult.fields.nf_serving_size_unit);
@@ -49,19 +49,20 @@ module.exports.addNutrition = function(recipe, cb) {
         ingredient.Nutrition['Total carbohydrate'] = ingredientResult.fields.nf_total_carbohydrate * multiplier;
         ingredient.Nutrition.Protein = ingredientResult.fields.nf_protein * multiplier;
         ingredient.Nutrition.complete = true;
-      } catch (e) {
-        console.log('Unknown unit ' + ingredient.Unit + ' or ' + ingredientResult.fields.nf_serving_size_unit);
-        ingredient.Nutrition.Calories = 0;
-        ingredient.Nutrition['Calories from fat'] = 0;
-        ingredient.Nutrition['Total fat'] = 0;
-        ingredient.Nutrition.Cholesterol = 0;
-        ingredient.Nutrition.Sodium = 0;
-        ingredient.Nutrition['Total carbohydrate'] = 0;
-        ingredient.Nutrition.Protein = 0;
-        ingredient.Nutrition.complete = false;
+
+      } else {
+        console.log('No nutrition results for ingredient ' + ingredient.Name);
       }
-    } else {
-      console.log('No nutrition results for ingredient ' + ingredient.Name);
+    } catch (e) {
+      console.log('Unknown unit ' + ingredient.Unit + ' or ' + ingredientResult.fields.nf_serving_size_unit);
+      ingredient.Nutrition.Calories = 0;
+      ingredient.Nutrition['Calories from fat'] = 0;
+      ingredient.Nutrition['Total fat'] = 0;
+      ingredient.Nutrition.Cholesterol = 0;
+      ingredient.Nutrition.Sodium = 0;
+      ingredient.Nutrition['Total carbohydrate'] = 0;
+      ingredient.Nutrition.Protein = 0;
+      ingredient.Nutrition.complete = false;
     }
 
     for (var i = 0; i < recipe.Ingredients.length; i++) {
