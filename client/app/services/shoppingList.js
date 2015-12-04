@@ -89,12 +89,13 @@ angular.module('ShoppingListFactory', [])
      * @param  {[int]} id [RecipeID to be removed]
      */
     var removeFromList = function (id) {
+      console.log('removing ' + id);
       for (var i = 0; i < list.length; i++) {
         if (list[i].RecipeID === id) {
           list.splice(i, 1);
-          User.updateUserList(list);
         }
       }
+      User.updateUserList(list);
     };
     /**
      * Reset the list
