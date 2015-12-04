@@ -18,6 +18,10 @@ var prepareNumber = function(str) {
 };
 
 module.exports.addNutrition = function(recipe, cb) {
+  if (!recipe.Ingredients) {
+    console.log('No recipe!');
+    cb();
+  }
   var process = function(ingredient, err, response, data) {
     ingredient.Nutrition = {};
     /*----------------------------*/
