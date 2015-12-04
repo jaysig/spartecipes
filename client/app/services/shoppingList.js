@@ -91,7 +91,7 @@ angular.module('ShoppingListFactory', [])
     var removeFromList = function (id) {
       for (var i = 0; i < list.length; i++) {
         if (list[i].RecipeID === id) {
-          list.splice(i, 1);
+          list = list.splice(i, 1).slice();
         }
       }
       User.updateUserList(list);
