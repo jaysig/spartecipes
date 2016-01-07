@@ -1,6 +1,6 @@
-# Project Name
+# Spartecipes
 
-> Pillager is a smart web application and chrome extension to organize and visualize bookmarks.
+> Spartecipes is a beautiful recipe search engine with integrated shopping list and various cooking utilities.
 
 ## Team
 
