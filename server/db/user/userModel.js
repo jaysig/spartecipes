@@ -16,7 +16,7 @@ var userSchema = new mongoose.Schema({
     name: String
   },
 
-  shoppingList: Array, // array of ingredient objects?
+  shoppingList: Array, // array of ingredient objects
   recipeCollection: Array // array of recipe names
 });
 

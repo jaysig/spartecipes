@@ -41,6 +41,11 @@ angular.module('recipes.login', [])
   .controller('LoginInstanceCtrl', ['$scope', '$rootScope', '$uibModalInstance', '$window', 'Auth', function($scope, $rootScope, $uibModalInstance, $window, Auth) {
 
     $scope.user = {};
+    $scope.showLogin = true;
+
+    $scope.toggleLogin = function() {
+      $scope.showLogin = !($scope.showLogin);
+    };
 
     $scope.close = function() {
       $uibModalInstance.close();

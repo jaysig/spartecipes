@@ -1,5 +1,5 @@
 angular.module('ShoppingListFactory', [])
-  .factory('ShoppingList', ['Ingredient', 'User', function(Ingredient, User) {
+  .factory('ShoppingList', ['Ingredient', 'User', function (Ingredient, User) {
 
     /**
      * Initialize List Array
@@ -7,7 +7,7 @@ angular.module('ShoppingListFactory', [])
      */
     var list = [];
 
-    var getList = function() {
+    var getList = function () {
       return {
         recipes: list,
         ingredients: getIngredientList()
@@ -18,7 +18,27 @@ angular.module('ShoppingListFactory', [])
      * Add a recipe to the list
      * @param {object} recipe [A recipe object in BigOven API format]
      */
-    var addToList = function(recipe) {
+    var addToList = function (recipe) {
+      var toTitleCase = function (str) {
+        return str.replace(/\w\S*/g, function (txt) {
+          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
+      };
+
+      recipe.Ingredients.map(function (ingredient) {
+        ingredient.Name = toTitleCase(ingredient.Name.toLowerCase());
+
+        // Seems as though some ingredients with matching names have different IDs
+        // Override ID to make ingredients match for volume unit work
+        list.map(function (recipe) {
+          recipe.Ingredients.map(function (thisIngredient) {
+            if (ingredient.Name === thisIngredient.Name) {
+              ingredient.IngredientID = thisIngredient.IngredientID;
+            }
+          });
+        });
+      });
+      
       list.push(recipe);
       User.updateUserList(list);
     };
@@ -27,11 +47,11 @@ angular.module('ShoppingListFactory', [])
      * Returns the current list of recipes and ingredients
      * @return {[object]}
      */
-    var getUserList = function() {
+    var getUserList = function () {
       var deferred = User.getUserList();
       if (deferred) {
         return deferred
-          .then(function(userList) {
+          .then(function (userList) {
             if (userList) {
               list = userList;
             }
@@ -42,7 +62,7 @@ angular.module('ShoppingListFactory', [])
           });
       } else {
         return {
-          then: function() {
+          then: function () {
             return {
               recipes: list,
               ingredients: getIngredientList()
@@ -57,8 +77,8 @@ angular.module('ShoppingListFactory', [])
      * Ingredient Factory to combine them.
      * @return {[array]} [List of all recipes' ingredients combined and formatted]
      */
-    var getIngredientList = function() {
-      var ingredientList = list.reduce(function(memo, recipe) {
+    var getIngredientList = function () {
+      var ingredientList = list.reduce(function (memo, recipe) {
         return memo.concat(recipe.Ingredients);
       }, []);
       return Ingredient.formatIngredientList(ingredientList);
@@ -68,21 +88,28 @@ angular.module('ShoppingListFactory', [])
      * Remove a recipe from the list
      * @param  {[int]} id [RecipeID to be removed]
      */
-    var removeFromList = function(id) {
+    var removeFromList = function (id) {
       for (var i = 0; i < list.length; i++) {
         if (list[i].RecipeID === id) {
           list.splice(i, 1);
-          User.updateUserList(list);
         }
       }
+      User.updateUserList(list);
     };
+    /**
+     * Reset the list
+     */
+     var resetList = function(){
+      list = [];
+      User.updateUserList(list);
+     };
 
     /**
      * Returns true if recipe is already in the list
      * @param  {[object]} recipe [Recipe object]
      * @return {[boolean]}
      */
-    var recipeInList = function(recipe) {
+    var recipeInList = function (recipe) {
 
       for (var i = 0; i < list.length; i++) {
         if (list[i].RecipeID === recipe.RecipeID) {
@@ -98,6 +125,7 @@ angular.module('ShoppingListFactory', [])
       getUserList: getUserList,
       getIngredientList: getIngredientList,
       removeFromList: removeFromList,
+      resetList: resetList,
       recipeInList: recipeInList
     };
 

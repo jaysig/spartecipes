@@ -50,8 +50,7 @@ angular.module('recipes', [
     });
 })
 
-// we will use this when we implement jwt
-//
+//jwt assigns login tokens
 .factory('AttachTokens', function ($window) {
 
   var attach = {

@@ -7,5 +7,7 @@ angular.module('recipes.services', [
   'AuthFactory',
   'StateFactory',
   'UserFactory',
-  'IngredientFactory'
+  'IngredientFactory',
+  'ScaleFactory',
+  'NutritionFactory'
   ]);
