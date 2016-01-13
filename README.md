@@ -8,8 +8,6 @@
   - __Scrum Master__: Kristine Yabut
   - __Development Team Members__: Paul Bhorjee, Ben Pochily
 
-## Development
-
 ### Installing Dependencies
 
 From within the root directory:
